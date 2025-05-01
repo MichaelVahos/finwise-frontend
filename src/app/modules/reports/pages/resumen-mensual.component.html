@@ -1,0 +1,45 @@
+<div class="container mt-4">
+    <h2>📊 Resumen mensual</h2>
+  
+    <form class="row g-3 align-items-center mb-4" (ngSubmit)="cargarResumen()">
+      <div class="col-auto">
+        <label for="mes" class="form-label">Mes:</label>
+        <select id="mes" class="form-select" [(ngModel)]="mes" name="mes">
+          <option *ngFor="let m of meses" [value]="m.numero">{{ m.nombre }}</option>
+        </select>
+      </div>
+  
+      <div class="col-auto">
+        <label for="anio" class="form-label">Año:</label>
+        <input
+          type="number"
+          class="form-control"
+          id="anio"
+          [(ngModel)]="anio"
+          name="anio"
+          min="2000"
+          max="2100"
+        />
+      </div>
+  
+      <div class="col-auto mt-4">
+        <button class="btn btn-primary" type="submit">Ver resumen</button>
+      </div>
+    </form>
+  
+    <div class="card p-4 shadow-sm rounded mb-4">
+      <p><strong>💰 Ingresos:</strong> {{ totalIngresos | currency:'EUR' }}</p>
+      <p><strong>📉 Gastos:</strong> {{ totalGastos | currency:'EUR' }}</p>
+      <p><strong>📈 Balance:</strong> {{ balance | currency:'EUR' }}</p>
+    </div>
+  
+    <div class="mt-4">
+      <canvas
+        baseChart
+        [data]="chartData"
+        [options]="chartOptions"
+        [type]="chartType">
+      </canvas>
+    </div>
+  </div>
+  

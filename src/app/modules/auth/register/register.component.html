@@ -1,1 +1,24 @@
-<p>register works!</p>
+<h2>Registro</h2>
+<form (ngSubmit)="onSubmit()">
+  <div>
+    <label>Username:</label>
+    <input type="text" [(ngModel)]="username" name="username" required />
+    <div *ngIf="submitted && !username" style="color:red;">El nombre de usuario es obligatorio</div>
+  </div>
+
+  <div>
+    <label>Email:</label>
+    <input type="email" [(ngModel)]="email" name="email" required />
+    <div *ngIf="submitted && !email" style="color:red;">El correo es obligatorio</div>
+  </div>
+
+  <div>
+    <label>Contraseña:</label>
+    <input type="password" [(ngModel)]="password" name="password" required minlength="6" />
+    <div *ngIf="submitted && password.length < 6" style="color:red;">
+      La contraseña debe tener al menos 6 caracteres
+    </div>
+  </div>
+
+  <button type="submit">Registrarse</button>
+</form>
