@@ -36,6 +36,10 @@ export const routes: Routes = [
         .then((m) => m.ResumenMensualComponent)
   },
   {
+    path: 'ia/historial',
+    loadComponent: () => import('./modules/ia/pages/ia-historial.component').then(m => m.IaHistorialComponent)
+  },
+  {
     path: '**',
     redirectTo: 'dashboard', // redirección por defecto
   },

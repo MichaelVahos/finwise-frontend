@@ -10,7 +10,7 @@ export const authGuard: CanActivateFn = (route, state) => {
     return false;
   }
 
-  // Validar expiración del token (opcional pero recomendable)
+
   try {
     const payload = JSON.parse(atob(token.split('.')[1]));
     const now = Math.floor(Date.now() / 1000); // tiempo actual en segundos

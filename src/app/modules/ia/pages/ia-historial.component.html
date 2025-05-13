@@ -1,0 +1,20 @@
+<div class="container mt-4">
+    <h2>🧠 Historial de sugerencias</h2>
+  
+    <div *ngIf="cargando" class="alert alert-info mt-3">Cargando historial...</div>
+  
+    <div *ngIf="!cargando && historial.length === 0" class="alert alert-warning mt-3">
+      No se han generado sugerencias aún.
+    </div>
+  
+    <div *ngIf="!cargando && historial.length > 0" class="mt-4">
+      <div *ngFor="let item of historial" class="card mb-3 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">🗓️ {{ item.mes }}/{{ item.anio }}</h5>
+          <p class="card-text" style="white-space: pre-line;">{{ item.contenido }}</p>
+          <small class="text-muted">Generado el {{ item.fechaGeneracion | date: 'medium' }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,13 +1,66 @@
 <div class="container mt-4 text-center">
-    <h2>🍩 Distribución por categoría</h2>
-  
-    <div class="mx-auto" style="max-width: 500px;">
-      <canvas
-        baseChart
-        [data]="chartData"
-        [type]="chartType"
-        [options]="chartOptions">
-      </canvas>
+  <h2>Distribución por categoría</h2>
+
+  <!-- Selector de mes y año -->
+  <form (ngSubmit)="cargarDatos()" class="d-flex justify-content-center gap-2 mt-3 flex-wrap">
+    <select class="form-select w-auto" [(ngModel)]="mes" name="mes">
+      <option *ngFor="let m of meses; index as i" [value]="i + 1">{{ m }}</option>
+    </select>
+
+    <select class="form-select w-auto" [(ngModel)]="anio" name="anio">
+      <option *ngFor="let a of anios" [value]="a">{{ a }}</option>
+    </select>
+
+    <button class="btn btn-primary" type="submit">Cargar</button>
+  </form>
+
+  <!-- Tabla de resumen -->
+  <div class="table-responsive mt-4">
+    <table class="table table-striped table-bordered text-center">
+      <thead class="table-dark">
+        <tr>
+          <th>Categoría</th>
+          <th>Total (€)</th>
+          <th>Porcentaje</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of tablaResumen">
+          <td>{{ row.categoria }}</td>
+          <td>{{ row.total | number:'1.2-2' }}</td>
+          <td>{{ row.porcentaje | number:'1.2-2' }}%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Botones de exportar -->
+  <div class="mt-3 d-flex justify-content-center gap-2 flex-wrap">
+    <button class="btn btn-outline-danger" (click)="exportarPDF()">📄 Exportar PDF</button>
+    <button class="btn btn-outline-success" (click)="exportarExcel()">📊 Exportar Excel</button>
+  </div>
+
+  <!-- Gráfico -->
+  <div class="mx-auto mt-4" style="max-width: 500px;">
+    <canvas
+      baseChart
+      [data]="chartData"
+      [type]="chartType"
+      [options]="chartOptions">
+    </canvas>
+  </div>
+
+  <!-- Sugerencia con IA -->
+  <div class="mt-5">
+    <button class="btn btn-info" [disabled]="cargando" (click)="obtenerSugerencia()">
+      <span *ngIf="!cargando">💡 Obtener sugerencia de ahorro</span>
+      <span *ngIf="cargando" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+      <span *ngIf="cargando"> Generando sugerencia...</span>
+    </button>
+
+    <div *ngIf="sugerencia" class="mt-4 text-start mx-auto" style="max-width: 800px;">
+      <h5>🤖 Sugerencia personalizada:</h5>
+      <p style="white-space: pre-line">{{ sugerencia }}</p>
     </div>
   </div>
-  
+</div>

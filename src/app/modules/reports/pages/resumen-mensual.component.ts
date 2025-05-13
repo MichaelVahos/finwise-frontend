@@ -3,10 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ReportService } from '../../../services/report.service';
 import { FormsModule } from '@angular/forms';
 import { NgChartsModule } from 'ng2-charts';
-
-
 import { ChartOptions, ChartType, ChartData } from 'chart.js';
-
+import { IaService } from '../../../services/ia.service';
 
 @Component({
   selector: 'app-resumen-mensual',
@@ -23,19 +21,14 @@ export class ResumenMensualComponent implements OnInit {
   mes: number = new Date().getMonth() + 1;
   anio: number = new Date().getFullYear();
 
+  resumenIA: string = '';
+  cargandoResumen: boolean = false;
+
   meses = [
-    { numero: 1, nombre: 'Enero' },
-    { numero: 2, nombre: 'Febrero' },
-    { numero: 3, nombre: 'Marzo' },
-    { numero: 4, nombre: 'Abril' },
-    { numero: 5, nombre: 'Mayo' },
-    { numero: 6, nombre: 'Junio' },
-    { numero: 7, nombre: 'Julio' },
-    { numero: 8, nombre: 'Agosto' },
-    { numero: 9, nombre: 'Septiembre' },
-    { numero: 10, nombre: 'Octubre' },
-    { numero: 11, nombre: 'Noviembre' },
-    { numero: 12, nombre: 'Diciembre' }
+    { numero: 1, nombre: 'Enero' }, { numero: 2, nombre: 'Febrero' }, { numero: 3, nombre: 'Marzo' },
+    { numero: 4, nombre: 'Abril' }, { numero: 5, nombre: 'Mayo' }, { numero: 6, nombre: 'Junio' },
+    { numero: 7, nombre: 'Julio' }, { numero: 8, nombre: 'Agosto' }, { numero: 9, nombre: 'Septiembre' },
+    { numero: 10, nombre: 'Octubre' }, { numero: 11, nombre: 'Noviembre' }, { numero: 12, nombre: 'Diciembre' }
   ];
 
   chartOptions: ChartOptions = {
@@ -62,7 +55,7 @@ export class ResumenMensualComponent implements OnInit {
 
   chartType: ChartType = 'bar';
 
-  constructor(private reportService: ReportService) {}
+  constructor(private reportService: ReportService, private iaService: IaService) {}
 
   ngOnInit(): void {
     this.cargarResumen();
@@ -74,16 +67,14 @@ export class ResumenMensualComponent implements OnInit {
         this.totalIngresos = data.totalIngresos;
         this.totalGastos = data.totalGastos;
         this.balance = data.balance;
-  
+
         this.chartData = {
           labels: ['Ingresos', 'Gastos', 'Balance'],
-          datasets: [
-            {
-              label: '€',
-              data: [this.totalIngresos, this.totalGastos, this.balance],
-              backgroundColor: ['#198754', '#dc3545', '#0d6efd']
-            }
-          ]
+          datasets: [{
+            label: '€',
+            data: [this.totalIngresos, this.totalGastos, this.balance],
+            backgroundColor: ['#198754', '#dc3545', '#0d6efd']
+          }]
         };
       },
       error: (err) => {
@@ -91,5 +82,37 @@ export class ResumenMensualComponent implements OnInit {
       }
     });
   }
-  
+
+  generarResumenIA(): void {
+    this.cargandoResumen = true;
+    this.resumenIA = '';
+    this.iaService.obtenerResumen(this.mes, this.anio).subscribe({
+      next: (res) => this.resumenIA = res,
+      error: () => this.resumenIA = 'No se pudo generar el resumen con IA.',
+      complete: () => this.cargandoResumen = false
+    });
+  }
+
+  exportarPDF(): void {
+    this.reportService.getResumenPDF(this.mes, this.anio).subscribe({
+      next: (blob) => this.descargarArchivo(blob, `resumen_${this.mes}_${this.anio}.pdf`),
+      error: () => alert('Error al generar PDF')
+    });
+  }
+
+  exportarExcel(): void {
+    this.reportService.getResumenExcel(this.mes, this.anio).subscribe({
+      next: (blob) => this.descargarArchivo(blob, `resumen_${this.mes}_${this.anio}.xlsx`),
+      error: () => alert('Error al generar Excel')
+    });
+  }
+
+  private descargarArchivo(blob: Blob, nombre: string): void {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = nombre;
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
 }
