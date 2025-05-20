@@ -1,1 +1,68 @@
-<p>list works!</p>
+<div class="container mt-4">
+  <h3 class="text-center mb-4">📋 Lista de Transacciones</h3>
+
+  <form class="d-flex gap-2 mb-3 flex-wrap justify-content-center" (ngSubmit)="cargarTransacciones()">
+    <select class="form-select w-auto" [(ngModel)]="mes" name="mes">
+      <option *ngFor="let m of meses; index as i" [value]="i + 1">{{ m }}</option>
+    </select>
+
+    <select class="form-select w-auto" [(ngModel)]="anio" name="anio">
+      <option *ngFor="let a of anios" [value]="a">{{ a }}</option>
+    </select>
+
+    <button class="btn btn-primary" type="submit">Filtrar</button>
+  </form>
+
+  <div class="row g-3">
+    <div class="col-md-6 col-lg-4" *ngFor="let t of transacciones">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="card-title">{{ t.tipo }} - {{ t.categoria }}</h5>
+          <p class="card-text">
+            <strong>Fecha:</strong> {{ t.fecha }}<br>
+            <strong>Monto:</strong> €{{ t.monto | number:'1.2-2' }}<br>
+            <strong>Descripción:</strong> {{ t.descripcion }}
+          </p>
+          <button class="btn btn-sm btn-outline-primary me-2" (click)="editarTransaccion(t)">Editar</button>
+          <button class="btn btn-sm btn-outline-danger" (click)="eliminarTransaccion(t.id)">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="modoEdicion" class="mt-5">
+    <h4>✏️ Editar Transacción</h4>
+    <form (ngSubmit)="guardarEdicion()" class="border p-3 rounded shadow-sm bg-light">
+      <div class="mb-2">
+        <label class="form-label">Tipo</label>
+        <select class="form-select" [(ngModel)]="transaccionEditando.tipo" name="tipo">
+          <option value="GASTO">Gasto</option>
+          <option value="INGRESO">Ingreso</option>
+        </select>
+      </div>
+
+      <div class="mb-2">
+        <label class="form-label">Monto (€)</label>
+        <input type="number" class="form-control" [(ngModel)]="transaccionEditando.monto" name="monto" required>
+      </div>
+
+      <div class="mb-2">
+        <label class="form-label">Descripción</label>
+        <input type="text" class="form-control" [(ngModel)]="transaccionEditando.descripcion" name="descripcion" required>
+      </div>
+
+      <div class="mb-2">
+        <label class="form-label">Categoría</label>
+        <input type="text" class="form-control" [(ngModel)]="transaccionEditando.categoria" name="categoria" required>
+      </div>
+
+      <div class="mb-2">
+        <label class="form-label">Fecha</label>
+        <input type="date" class="form-control" [(ngModel)]="transaccionEditando.fecha" name="fecha" required>
+      </div>
+
+      <button type="submit" class="btn btn-success">Guardar cambios</button>
+      <button type="button" class="btn btn-secondary ms-2" (click)="modoEdicion = false">Cancelar</button>
+    </form>
+  </div>
+</div>

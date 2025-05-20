@@ -39,7 +39,7 @@ export class CategoriasGraficoComponent implements OnInit {
     'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
   anios: number[] = [];
 
-  tablaResumen: { categoria: string, total: number, porcentaje: number }[] = [];
+  tablaResumen: { tipo: string, categoria: string, total: number, porcentaje: number }[] = [];
   sugerencia: string = '';
   cargando: boolean = false;
 
@@ -64,13 +64,14 @@ export class CategoriasGraficoComponent implements OnInit {
         const totalGeneral = data.reduce((sum, item) => sum + item.total, 0);
 
         this.tablaResumen = data.map(item => ({
+          tipo: item.tipo,
           categoria: item.categoria,
           total: item.total,
           porcentaje: totalGeneral > 0 ? (item.total / totalGeneral) * 100 : 0
         }));
 
         this.chartData = {
-          labels: data.map(item => item.categoria),
+          labels: data.map(item => `${item.tipo}: ${item.categoria}`),
           datasets: [{
             label: 'Total por categoría (€)',
             data: data.map(item => item.total),
