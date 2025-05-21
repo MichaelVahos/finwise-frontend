@@ -1,0 +1,38 @@
+<div class="container mt-4">
+  <h2 class="text-center mb-4">👑 Panel de Administración</h2>
+
+  <div *ngIf="usuarios.length === 0" class="alert alert-info text-center">
+    No hay usuarios registrados aún.
+  </div>
+
+  <div class="table-responsive" *ngIf="usuarios.length > 0">
+    <table class="table table-bordered text-center align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Usuario</th>
+          <th>Email</th>
+          <th>Rol</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of usuarios">
+          <td>{{ u.id }}</td>
+          <td>{{ u.username }}</td>
+          <td>{{ u.email }}</td>
+          <td>
+            <select class="form-select" [(ngModel)]="u.rol" (change)="cambiarRol(u)">
+              <option value="USER">USER</option>
+              <option value="ADMIN">ADMIN</option>
+            </select>
+          </td>
+          <td>
+           <button class="btn btn-sm btn-outline-danger" (click)="eliminar(u.id)">Eliminar</button>
+            <button class="btn btn-outline-info btn-sm" (click)="verTransacciones(u.id)">Ver transacciones</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

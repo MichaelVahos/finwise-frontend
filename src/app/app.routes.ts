@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
+import { RoleGuard } from './guards/role.guard';
 
-// Carga diferida (lazy loading) para cada módulo
 export const routes: Routes = [
   {
     path: 'auth',
@@ -37,7 +37,19 @@ export const routes: Routes = [
   },
   {
     path: 'ia/historial',
-    loadComponent: () => import('./modules/ia/pages/ia-historial.component').then(m => m.IaHistorialComponent)
+    loadComponent: () =>
+      import('./modules/ia/pages/ia-historial.component').then(m => m.IaHistorialComponent)
+  },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./modules/admin/admin.routes').then(m => m.ADMIN_ROUTES),
+    canActivate: [RoleGuard],
+    data: { roles: ['ROLE_ADMIN'] }
+  },
+  {
+  path: 'unauthorized',
+  loadComponent: () => import('./modules/unauthorized/unauthorized.component').then(m => m.UnauthorizedComponent)
   },
   {
     path: '**',

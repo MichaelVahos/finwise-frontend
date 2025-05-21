@@ -38,8 +38,8 @@ export class RoleGuard implements CanActivate {
         return false;
       }
 
-      const expectedRole = next.data['role'];
-      if (roles.includes(expectedRole)) {
+      const expectedRoles = next.data['roles'] as string[];
+      if (!expectedRoles || expectedRoles.some(role => roles.includes(role))) {
         return true;
       }
 
@@ -47,7 +47,6 @@ export class RoleGuard implements CanActivate {
       return false;
 
     } catch (e) {
-      // Error al decodificar el token
       localStorage.removeItem('token');
       this.router.navigate(['/auth/login']);
       return false;
