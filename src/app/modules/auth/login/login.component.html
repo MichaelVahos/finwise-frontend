@@ -1,13 +1,39 @@
-<h2>Iniciar sesión</h2>
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+  <div class="card p-4 shadow" style="max-width: 400px; width: 100%;">
+    <h3 class="text-center mb-4 text-primary">
+      <i class="bi bi-person-circle me-2"></i>Iniciar sesión
+    </h3>
 
-<form (ngSubmit)="onSubmit()" #loginForm="ngForm">
-  <label for="username">Usuario</label>
-  <input type="text" id="username" [(ngModel)]="username" name="username" required />
+    <form (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
+      <div class="mb-3">
+        <label for="username" class="form-label">Usuario</label>
+        <input
+          type="text"
+          class="form-control"
+          id="username"
+          [(ngModel)]="username"
+          name="username"
+          required
+        />
+      </div>
 
-  <label for="password">Contraseña</label>
-  <input type="password" id="password" [(ngModel)]="password" name="password" required />
+      <div class="mb-3">
+        <label for="password" class="form-label">Contraseña</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          [(ngModel)]="password"
+          name="password"
+          required
+        />
+      </div>
 
-  <button type="submit">Iniciar sesión</button>
-</form>
+      <button type="submit" class="btn btn-primary w-100">Iniciar sesión</button>
+    </form>
 
-<div *ngIf="error" style="color: red;">{{ error }}</div>
+    <div class="text-center mt-3">
+      <small>¿No tienes cuenta? <a routerLink="/auth/register">Regístrate</a></small>
+    </div>
+  </div>
+</div>

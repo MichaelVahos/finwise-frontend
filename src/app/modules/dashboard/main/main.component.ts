@@ -17,6 +17,44 @@ export class MainComponent implements OnInit {
   categoriaTop: { categoria: string, total: number } = { categoria: 'Sin datos', total: 0 };
   ultimas: any[] = [];
 
+  accesos = [
+    {
+      titulo: 'Registrar Transacciones',
+      descripcion: 'Agrega tus ingresos y gastos de forma rápida y segura.',
+      ruta: '/transactions/nueva'
+    },
+    {
+      titulo: 'Ver Transacciones',
+      descripcion: 'Consulta, edita o elimina tus ingresos y gastos.',
+      ruta: '/transactions/lista'
+    },
+    {
+      titulo: 'Reporte Mensual',
+      descripcion: 'Visualiza ingresos, gastos y balance mensual.',
+      ruta: '/resumen-mensual'
+    },
+    {
+      titulo: 'Categorías',
+      descripcion: 'Consulta tus gastos agrupados con gráficas.',
+      ruta: '/reports/categorias'
+    },
+    {
+      titulo: 'Sugerencias Inteligentes',
+      descripcion: 'Obtén recomendaciones personalizadas con IA.',
+      ruta: '/reports/categorias'
+    },
+    {
+      titulo: 'Historial de IA',
+      descripcion: 'Consulta sugerencias generadas anteriormente.',
+      ruta: '/ia/historial'
+    },
+    {
+      titulo: 'Mi Perfil',
+      descripcion: 'Revisa tus datos y cambia tu contraseña.',
+      ruta: '/profile'
+    }
+  ];
+
   constructor(private router: Router, private http: HttpClient) {}
 
   ngOnInit(): void {

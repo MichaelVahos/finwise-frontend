@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../../services/user.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-profile',
@@ -11,12 +12,10 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  // Datos del perfil
   username: string = '';
   email: string = '';
   rol: string = '';
 
-  // Formulario de cambio de contraseña
   currentPassword: string = '';
   newPassword: string = '';
   confirmPassword: string = '';
@@ -38,7 +37,11 @@ export class ProfileComponent implements OnInit {
 
   onSubmit(): void {
     if (this.newPassword !== this.confirmPassword) {
-      alert('Las nuevas contraseñas no coinciden');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Las nuevas contraseñas no coinciden'
+      });
       return;
     }
 
@@ -47,19 +50,29 @@ export class ProfileComponent implements OnInit {
       newPassword: this.newPassword
     }).subscribe({
       next: (res) => {
-        alert('✅ ' + (res?.mensaje ?? 'Contraseña actualizada exitosamente'));
+        Swal.fire({
+          icon: 'success',
+          title: 'Contraseña actualizada',
+          text: res?.mensaje ?? 'Se actualizó correctamente.'
+        });
         this.currentPassword = '';
         this.newPassword = '';
         this.confirmPassword = '';
       },
       error: (err) => {
+        let mensaje = 'Error inesperado. Intenta más tarde.';
+
         if (typeof err.error === 'string') {
-          alert('Error al actualizar la contraseña: ' + err.error);
+          mensaje = err.error;
         } else if (err.status === 403) {
-          alert('Contraseña actual incorrecta.');
-        } else {
-          alert('Error inesperado. Intenta más tarde.');
+          mensaje = 'Contraseña actual incorrecta.';
         }
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al actualizar',
+          text: mensaje
+        });
       }
     });
   }
