@@ -1,0 +1,19 @@
+.card {
+  background-color: #f8f9fa;
+  border-left: 4px solid #0d6efd;
+}
+
+canvas {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.alert {
+  text-align: center;
+}
+@media (max-width: 991.98px) {
+  :host {
+    display: block;
+    padding-top: 2rem;
+  }
+}

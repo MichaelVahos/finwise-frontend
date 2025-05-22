@@ -1,47 +1,89 @@
 <nav class="navbar navbar-expand-lg fixed-top bg-white shadow-sm px-4 py-2">
   <div class="container-fluid">
-    <a class="navbar-brand fw-bold text-primary" routerLink="/">FinWise</a>
+    <a class="navbar-brand fw-bold text-primary" routerLink="/">
+      <i class="bi bi-graph-up-arrow me-2"></i>FinWise
+    </a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse justify-content-between" id="navbarContent">
+    <div class="collapse navbar-collapse align-items-center" id="navbarContent">
+      <!-- Ítems navegación -->
       <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="isLoggedIn()">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/dashboard">Dashboard</a>
+          <a class="nav-link" (click)="navigateAndClose('/dashboard')">
+            <i class="bi bi-speedometer2 me-1"></i>Dashboard
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/transactions">Transacciones</a>
+          <a class="nav-link" (click)="navigateAndClose('/transactions/lista')">
+            <i class="bi bi-arrows-collapse-vertical me-1"></i>Transacciones
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="navigateAndClose('/resumen-mensual')">
+            <i class="bi bi-calendar3 me-1"></i>Resumen&nbsp;mensual
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="navigateAndClose('/reports/categorias')">
+            <i class="bi bi-pie-chart-fill me-1"></i>Categorías
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="navigateAndClose('/ia/sugerencias')">
+            <i class="bi bi-stars me-1"></i>IA&nbsp;Sugerencias
+          </a>
         </li>
         <li class="nav-item" *ngIf="isAdmin()">
-          <a class="nav-link" routerLink="/admin">Admin</a>
+          <a class="nav-link" (click)="navigateAndClose('/admin')">
+            <i class="bi bi-shield-lock me-1"></i>Admin
+          </a>
         </li>
       </ul>
 
-      <div class="d-flex align-items-center">
-        <!-- Usuario logueado -->
-        <div class="dropdown" *ngIf="isLoggedIn()">
-          <button
-            class="btn btn-outline-secondary dropdown-toggle rounded-pill"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            👤 {{ getUsername() }}
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end mt-2">
-            <li><a class="dropdown-item" routerLink="/profile">Mi perfil</a></li>
-            <li><hr class="dropdown-divider" /></li>
-            <li><button class="dropdown-item text-danger" (click)="logout()">Cerrar sesión</button></li>
-          </ul>
-        </div>
+      <!-- Botón usuario -->
+      <div
+        *ngIf="isLoggedIn()"
+        class="dropdown d-flex w-100 w-lg-auto justify-content-center justify-content-lg-end mt-2 mt-lg-0"
+      >
+        <button
+          class="btn btn-outline-secondary dropdown-toggle rounded-pill d-flex align-items-center justify-content-center"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <i class="bi bi-person-circle me-2"></i>{{ getUsername() }}
+        </button>
+        <ul class="dropdown-menu mt-2 text-center" [ngClass]="{ 'dropdown-menu-end': isLargeScreen }">
+          <li>
+            <a class="dropdown-item" (click)="navigateAndClose('/profile')">
+              <i class="bi bi-person-gear me-2"></i>Mi perfil
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" (click)="navigateAndClose('/ia/historial')">
+              <i class="bi bi-clock-history me-2"></i>Historial IA
+            </a>
+          </li>
+          <li><hr class="dropdown-divider" /></li>
+          <li>
+            <button class="dropdown-item text-danger d-flex align-items-center justify-content-center" (click)="logout()">
+              <i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión
+            </button>
+          </li>
+        </ul>
+      </div>
 
-        <!-- Usuario no logueado -->
-        <div *ngIf="!isLoggedIn()">
-          <a class="btn btn-outline-primary me-2 rounded-pill" routerLink="/auth/login">Login</a>
-          <a class="btn btn-outline-secondary rounded-pill" routerLink="/auth/register">Registro</a>
-        </div>
+      <!-- Usuario no logueado -->
+      <div *ngIf="!isLoggedIn()" class="d-flex align-items-center ms-auto">
+        <a class="btn btn-outline-primary me-2 rounded-pill" routerLink="/auth/login">
+          <i class="bi bi-box-arrow-in-right me-1"></i>Login
+        </a>
+        <a class="btn btn-outline-secondary rounded-pill" routerLink="/auth/register">
+          <i class="bi bi-pencil-square me-1"></i>Registro
+        </a>
       </div>
     </div>
   </div>

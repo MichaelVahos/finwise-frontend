@@ -1,7 +1,31 @@
-.container {
-  max-width: 1000px;
+table {
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-th, td {
-  vertical-align: middle !important;
+thead th {
+  vertical-align: middle;
+}
+
+.table th,
+.table td {
+  vertical-align: middle;
+}
+
+select.form-select-sm {
+  width: 100px;
+  margin: auto;
+}
+
+.btn-sm i {
+  vertical-align: middle;
+}
+
+.alert-info {
+  font-size: 0.95rem;
+  padding: 0.75rem 1.25rem;
+}
+
+h2 i {
+  vertical-align: middle;
 }

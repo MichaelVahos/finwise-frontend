@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin',
@@ -26,52 +27,61 @@ export class AdminUsersComponent implements OnInit {
       headers: { Authorization: `Bearer ${token}` }
     }).subscribe({
       next: (data) => this.usuarios = data,
-      error: () => alert('❌ Error al cargar usuarios')
+      error: () => {
+        Swal.fire('Error', 'No se pudieron cargar los usuarios.', 'error');
+      }
     });
   }
 
   cambiarRol(usuario: any): void {
-  const token = localStorage.getItem('token');
-  const nuevoRol = usuario.rol === 'ADMIN' ? 'USER' : 'ADMIN';
-
-  this.http.put(
-    `http://localhost:8080/api/usuarios/${usuario.id}/rol`,
-    { nuevoRol },
-    {
-      headers: { Authorization: `Bearer ${token}` },
-      responseType: 'text' 
-    }
-  ).subscribe({
-    next: () => {
-      alert('✅ Rol actualizado');
-      this.cargarUsuarios();
-    },
-    error: (err) => {
-      console.error(err);
-      alert('❌ Error al cambiar rol');
-    }
-  });
-}
-
-
-  eliminar(id: number): void {
-    if (!confirm('¿Estás seguro de eliminar este usuario?')) return;
-
     const token = localStorage.getItem('token');
-    this.http.delete(`http://localhost:8080/api/admin/usuarios/${id}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    }).subscribe({
+    const nuevoRol = usuario.rol === 'ADMIN' ? 'USER' : 'ADMIN';
+
+    this.http.put(
+      `http://localhost:8080/api/usuarios/${usuario.id}/rol`,
+      { nuevoRol },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        responseType: 'text'
+      }
+    ).subscribe({
       next: () => {
-        alert('✅ Usuario eliminado');
+        Swal.fire('Rol actualizado', `El rol del usuario ${usuario.username} ha sido cambiado.`, 'success');
         this.cargarUsuarios();
       },
-      error: () => alert('❌ Error al eliminar usuario')
+      error: () => {
+        Swal.fire('Error', 'No se pudo cambiar el rol.', 'error');
+      }
+    });
+  }
+
+  eliminar(id: number): void {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esta acción eliminará el usuario permanentemente.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const token = localStorage.getItem('token');
+        this.http.delete(`http://localhost:8080/api/admin/usuarios/${id}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        }).subscribe({
+          next: () => {
+            Swal.fire('Eliminado', 'Usuario eliminado exitosamente.', 'success');
+            this.cargarUsuarios();
+          },
+          error: () => {
+            Swal.fire('Error', 'No se pudo eliminar el usuario.', 'error');
+          }
+        });
+      }
     });
   }
 
   verTransacciones(usuarioId: number): void {
-  this.router.navigate(['/transactions/admin', usuarioId]);
-}
-
-
+    this.router.navigate(['/transactions/admin', usuarioId]);
+  }
 }

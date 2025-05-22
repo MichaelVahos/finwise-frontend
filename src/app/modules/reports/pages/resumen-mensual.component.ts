@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { NgChartsModule } from 'ng2-charts';
 import { ChartOptions, ChartType, ChartData } from 'chart.js';
 import { IaService } from '../../../services/ia.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-resumen-mensual',
@@ -77,8 +78,8 @@ export class ResumenMensualComponent implements OnInit {
           }]
         };
       },
-      error: (err) => {
-        console.error('Error al cargar resumen', err);
+      error: () => {
+        Swal.fire('Error', 'No se pudo cargar el resumen mensual.', 'error');
       }
     });
   }
@@ -88,7 +89,10 @@ export class ResumenMensualComponent implements OnInit {
     this.resumenIA = '';
     this.iaService.obtenerResumen(this.mes, this.anio).subscribe({
       next: (res) => this.resumenIA = res,
-      error: () => this.resumenIA = 'No se pudo generar el resumen con IA.',
+      error: () => {
+        Swal.fire('Error', 'No se pudo generar el resumen con IA.', 'error');
+        this.resumenIA = '';
+      },
       complete: () => this.cargandoResumen = false
     });
   }
@@ -96,14 +100,14 @@ export class ResumenMensualComponent implements OnInit {
   exportarPDF(): void {
     this.reportService.getResumenPDF(this.mes, this.anio).subscribe({
       next: (blob) => this.descargarArchivo(blob, `resumen_${this.mes}_${this.anio}.pdf`),
-      error: () => alert('Error al generar PDF')
+      error: () => Swal.fire('Error', 'No se pudo generar el PDF.', 'error')
     });
   }
 
   exportarExcel(): void {
     this.reportService.getResumenExcel(this.mes, this.anio).subscribe({
       next: (blob) => this.descargarArchivo(blob, `resumen_${this.mes}_${this.anio}.xlsx`),
-      error: () => alert('Error al generar Excel')
+      error: () => Swal.fire('Error', 'No se pudo generar el Excel.', 'error')
     });
   }
 

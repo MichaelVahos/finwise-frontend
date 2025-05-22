@@ -1,7 +1,9 @@
+// list.component.ts actualizado
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-list',
@@ -35,7 +37,13 @@ export class ListComponent implements OnInit {
       headers: { Authorization: `Bearer ${token}` }
     }).subscribe({
       next: (data) => this.transacciones = data,
-      error: () => alert('❌ Error al cargar transacciones')
+      error: () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al cargar transacciones',
+          confirmButtonColor: '#dc3545'
+        });
+      }
     });
   }
 
@@ -50,10 +58,21 @@ export class ListComponent implements OnInit {
       headers: { Authorization: `Bearer ${token}` }
     }).subscribe({
       next: () => {
-        alert('✅ Eliminada correctamente');
+        Swal.fire({
+          icon: 'success',
+          title: 'Transacción eliminada',
+          timer: 1500,
+          showConfirmButton: false
+        });
         this.cargarTransacciones();
       },
-      error: () => alert('❌ Error al eliminar')
+      error: () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al eliminar',
+          confirmButtonColor: '#dc3545'
+        });
+      }
     });
   }
 
@@ -63,12 +82,23 @@ export class ListComponent implements OnInit {
       headers: { Authorization: `Bearer ${token}` }
     }).subscribe({
       next: () => {
-        alert('✅ Transacción actualizada');
+        Swal.fire({
+          icon: 'success',
+          title: 'Transacción actualizada',
+          timer: 1500,
+          showConfirmButton: false
+        });
         this.modoEdicion = false;
         this.transaccionEditando = this.transaccionBase();
         this.cargarTransacciones();
       },
-      error: () => alert('❌ Error al actualizar')
+      error: () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al actualizar',
+          confirmButtonColor: '#dc3545'
+        });
+      }
     });
   }
 

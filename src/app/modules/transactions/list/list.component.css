@@ -16,3 +16,10 @@
 .card:hover {
   transform: scale(1.02);
 }
+
+@media (max-width: 991.98px) {
+  :host {
+    display: block;
+    padding-top: 1.5rem;
+  }
+}

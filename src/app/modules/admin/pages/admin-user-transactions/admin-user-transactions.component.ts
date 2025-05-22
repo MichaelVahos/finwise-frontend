@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin-user-transactions',
@@ -34,7 +35,7 @@ export class AdminUserTransactionsComponent implements OnInit {
       next: data => this.transacciones = data,
       error: err => {
         console.error(err);
-        alert('❌ Error al cargar transacciones del usuario');
+        Swal.fire('Error', 'No se pudieron cargar las transacciones del usuario.', 'error');
       }
     });
   }

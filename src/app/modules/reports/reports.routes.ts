@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
-import { MonthlyComponent } from './monthly/monthly.component';
 import { CategoriasGraficoComponent } from '../reports/pages/categorias-grafico.component';
+import { ResumenMensualComponent } from './pages/resumen-mensual.component';  
 import { authGuard } from '../../guards/auth.guard';
 
 export const REPORTS_ROUTES: Routes = [
   {
-    path: '',
-    component: MonthlyComponent,
+    path: 'resumen-mensual',
+    component: ResumenMensualComponent,
     canActivate: [authGuard]
   },
   {

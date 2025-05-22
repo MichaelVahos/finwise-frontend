@@ -1,12 +1,16 @@
-<div class="container mt-4">
-  <h2 class="text-center mb-4">👤 Panel de Administración</h2>
+<div class="container mt-5">
+  <h2 class="text-center text-primary mb-4">
+    <i class="bi bi-people-fill me-2"></i>Panel de Administración de Usuarios
+  </h2>
 
-  <div *ngIf="cargando" class="text-center">
+  <!-- Spinner de carga -->
+  <div *ngIf="cargando" class="text-center my-4">
     <div class="spinner-border text-primary" role="status"></div>
   </div>
 
+  <!-- Tabla de usuarios -->
   <div *ngIf="!cargando" class="table-responsive">
-    <table class="table table-bordered table-hover text-center">
+    <table class="table table-bordered table-hover align-middle text-center shadow-sm">
       <thead class="table-dark">
         <tr>
           <th>ID</th>
@@ -22,16 +26,22 @@
           <td>{{ u.username }}</td>
           <td>{{ u.email }}</td>
           <td>
-            <select [(ngModel)]="u.rol" (change)="cambiarRol(u.id, u.rol)" class="form-select">
+            <select [(ngModel)]="u.rol" (change)="cambiarRol(u.id, u.rol)" class="form-select form-select-sm">
               <option value="USER">USER</option>
               <option value="ADMIN">ADMIN</option>
             </select>
           </td>
           <td>
-            <button class="btn btn-danger btn-sm" (click)="eliminarUsuario(u.id)">Eliminar</button>
+            <button class="btn btn-outline-danger btn-sm" (click)="eliminarUsuario(u.id)">
+              <i class="bi bi-trash"></i> Eliminar
+            </button>
           </td>
         </tr>
       </tbody>
     </table>
+
+    <div *ngIf="usuarios.length === 0" class="alert alert-info text-center mt-3">
+      No hay usuarios registrados en este momento.
+    </div>
   </div>
 </div>

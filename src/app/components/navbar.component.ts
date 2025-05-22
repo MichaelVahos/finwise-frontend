@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+
+declare const bootstrap: any; // para usar bootstrap.Collapse
 
 @Component({
   selector: 'app-navbar',
@@ -10,8 +12,14 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent {
-
   constructor(private router: Router) {}
+
+  isLargeScreen = window.innerWidth >= 992;
+
+  @HostListener('window:resize')
+  onResize() {
+    this.isLargeScreen = window.innerWidth >= 992;
+  }
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
@@ -33,9 +41,18 @@ export class NavbarComponent {
   getUsername(): string | null {
     const token = localStorage.getItem('token');
     if (!token) return null;
-  
+
     const payload = JSON.parse(atob(token.split('.')[1]));
     return payload.sub;
   }
-  
+
+  navigateAndClose(path: string): void {
+    this.router.navigate([path]);
+    if (!this.isLargeScreen) {
+      const navbarCollapse = document.getElementById('navbarContent');
+      if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+        new bootstrap.Collapse(navbarCollapse).hide();
+      }
+    }
+  }
 }

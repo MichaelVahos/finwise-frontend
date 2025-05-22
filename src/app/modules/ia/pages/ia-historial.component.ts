@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-ia-historial',
@@ -35,6 +36,11 @@ export class IaHistorialComponent implements OnInit {
       error: (err) => {
         console.error('Error al cargar historial', err);
         this.cargando = false;
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al cargar el historial',
+          confirmButtonColor: '#dc3545'
+        });
       }
     });
   }

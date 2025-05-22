@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-usuarios',
@@ -31,9 +32,9 @@ export class UsuariosComponent implements OnInit {
         this.usuarios = res;
         this.cargando = false;
       },
-      error: (err) => {
-        alert('❌ Error al cargar usuarios');
+      error: () => {
         this.cargando = false;
+        Swal.fire('Error', 'No se pudieron cargar los usuarios.', 'error');
       }
     });
   }
@@ -44,25 +45,38 @@ export class UsuariosComponent implements OnInit {
       headers: { Authorization: `Bearer ${token}` }
     }).subscribe({
       next: () => {
-        alert('✅ Rol actualizado');
+        Swal.fire('Rol actualizado', 'El rol del usuario fue cambiado correctamente.', 'success');
         this.obtenerUsuarios();
       },
-      error: () => alert('❌ Error al cambiar rol')
+      error: () => {
+        Swal.fire('Error', 'No se pudo cambiar el rol del usuario.', 'error');
+      }
     });
   }
 
   eliminarUsuario(id: number): void {
-    if (!confirm('¿Estás seguro de eliminar este usuario?')) return;
-
-    const token = localStorage.getItem('token');
-    this.http.delete(`http://localhost:8080/api/admin/usuarios/${id}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    }).subscribe({
-      next: () => {
-        alert('🗑️ Usuario eliminado');
-        this.obtenerUsuarios();
-      },
-      error: () => alert('❌ Error al eliminar usuario')
+    Swal.fire({
+      title: '¿Eliminar usuario?',
+      text: 'Esta acción no se puede deshacer.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const token = localStorage.getItem('token');
+        this.http.delete(`http://localhost:8080/api/admin/usuarios/${id}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        }).subscribe({
+          next: () => {
+            Swal.fire('Eliminado', 'El usuario ha sido eliminado.', 'success');
+            this.obtenerUsuarios();
+          },
+          error: () => {
+            Swal.fire('Error', 'No se pudo eliminar el usuario.', 'error');
+          }
+        });
+      }
     });
   }
 }

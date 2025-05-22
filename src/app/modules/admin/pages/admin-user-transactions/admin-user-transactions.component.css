@@ -1,3 +1,18 @@
-.container {
-  max-width: 900px;
+table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+thead th {
+  vertical-align: middle;
+}
+
+.table th,
+.table td {
+  vertical-align: middle;
+}
+
+.badge {
+  font-size: 0.9rem;
+  padding: 0.5em 0.75em;
 }

@@ -1,5 +1,7 @@
-<div class="container mt-4">
-  <h3 class="text-center mb-4">📋 Lista de Transacciones</h3>
+<div class="container mt-5 pt-3 pt-lg-0">
+  <h3 class="text-center mb-4 text-primary">
+    <i class="bi bi-card-list me-2"></i>Lista de Transacciones
+  </h3>
 
   <form class="d-flex gap-2 mb-3 flex-wrap justify-content-center" (ngSubmit)="cargarTransacciones()">
     <select class="form-select w-auto" [(ngModel)]="mes" name="mes">
@@ -10,28 +12,38 @@
       <option *ngFor="let a of anios" [value]="a">{{ a }}</option>
     </select>
 
-    <button class="btn btn-primary" type="submit">Filtrar</button>
+    <button class="btn btn-primary" type="submit">
+      <i class="bi bi-funnel-fill me-1"></i>Filtrar
+    </button>
   </form>
 
   <div class="row g-3">
     <div class="col-md-6 col-lg-4" *ngFor="let t of transacciones">
       <div class="card shadow-sm h-100">
         <div class="card-body">
-          <h5 class="card-title">{{ t.tipo }} - {{ t.categoria }}</h5>
+          <h5 class="card-title">
+            <i class="bi bi-cash-coin me-1"></i>{{ t.tipo }} - {{ t.categoria }}
+          </h5>
           <p class="card-text">
             <strong>Fecha:</strong> {{ t.fecha }}<br>
             <strong>Monto:</strong> €{{ t.monto | number:'1.2-2' }}<br>
             <strong>Descripción:</strong> {{ t.descripcion }}
           </p>
-          <button class="btn btn-sm btn-outline-primary me-2" (click)="editarTransaccion(t)">Editar</button>
-          <button class="btn btn-sm btn-outline-danger" (click)="eliminarTransaccion(t.id)">Eliminar</button>
+          <button class="btn btn-sm btn-outline-primary me-2" (click)="editarTransaccion(t)">
+            <i class="bi bi-pencil-square me-1"></i>Editar
+          </button>
+          <button class="btn btn-sm btn-outline-danger" (click)="eliminarTransaccion(t.id)">
+            <i class="bi bi-trash me-1"></i>Eliminar
+          </button>
         </div>
       </div>
     </div>
   </div>
 
   <div *ngIf="modoEdicion" class="mt-5">
-    <h4>✏️ Editar Transacción</h4>
+    <h4 class="text-secondary mb-3">
+      <i class="bi bi-pencil-fill me-2"></i>Editar Transacción
+    </h4>
     <form (ngSubmit)="guardarEdicion()" class="border p-3 rounded shadow-sm bg-light">
       <div class="mb-2">
         <label class="form-label">Tipo</label>
@@ -61,8 +73,12 @@
         <input type="date" class="form-control" [(ngModel)]="transaccionEditando.fecha" name="fecha" required>
       </div>
 
-      <button type="submit" class="btn btn-success">Guardar cambios</button>
-      <button type="button" class="btn btn-secondary ms-2" (click)="modoEdicion = false">Cancelar</button>
+      <button type="submit" class="btn btn-success">
+        <i class="bi bi-save me-1"></i>Guardar cambios
+      </button>
+      <button type="button" class="btn btn-secondary ms-2" (click)="modoEdicion = false">
+        <i class="bi bi-x-circle me-1"></i>Cancelar
+      </button>
     </form>
   </div>
 </div>

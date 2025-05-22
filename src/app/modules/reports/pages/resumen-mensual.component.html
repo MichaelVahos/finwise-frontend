@@ -1,47 +1,109 @@
-<div class="container mt-4">
-  <h2>📊 Resumen mensual</h2>
+<div class="container mt-4 pt-4">
+  <!-- Título -->
+  <h3 class="text-center text-primary mb-4">
+    <i class="bi bi-bar-chart-fill me-2"></i>Resumen Mensual
+  </h3>
 
-  <form class="row g-3 align-items-center mb-4" (ngSubmit)="cargarResumen()">
-    <div class="col-auto">
-      <label for="mes" class="form-label">Mes:</label>
-      <select id="mes" class="form-select" [(ngModel)]="mes" name="mes">
+  <!-- Selector de mes y año -->
+  <form class="row g-3 justify-content-center align-items-end mb-4" (ngSubmit)="cargarResumen()">
+    <div class="col-md-4">
+      <label for="mes" class="form-label">Mes</label>
+      <select id="mes" class="form-select" [(ngModel)]="mes" name="mes" required>
         <option *ngFor="let m of meses" [value]="m.numero">{{ m.nombre }}</option>
       </select>
     </div>
 
-    <div class="col-auto">
-      <label for="anio" class="form-label">Año:</label>
-      <input type="number" class="form-control" id="anio" [(ngModel)]="anio" name="anio" min="2000" max="2100" />
+    <div class="col-md-3">
+      <label for="anio" class="form-label">Año</label>
+      <input
+        type="number"
+        class="form-control"
+        id="anio"
+        [(ngModel)]="anio"
+        name="anio"
+        min="2000"
+        max="2100"
+        required
+      />
     </div>
 
-    <div class="col-auto mt-4">
-      <button class="btn btn-primary" type="submit">Ver resumen</button>
+    <div class="col-auto">
+      <button class="btn btn-primary mt-2" type="submit">
+        <i class="bi bi-search me-1"></i>Ver resumen
+      </button>
     </div>
   </form>
 
-  <div class="card p-4 shadow-sm rounded mb-4">
-    <p><strong>💰 Ingresos:</strong> {{ totalIngresos | currency:'EUR' }}</p>
-    <p><strong>📉 Gastos:</strong> {{ totalGastos | currency:'EUR' }}</p>
-    <p><strong>📈 Balance:</strong> {{ balance | currency:'EUR' }}</p>
+  <!-- Resumen valores -->
+  <div class="row text-center mb-4">
+    <div class="col-md-4">
+      <div class="card border-success shadow-sm" style="background-color: #e9f7ef;">
+        <div class="card-body">
+          <i class="bi bi-cash-coin fs-3 text-success mb-2"></i>
+          <h5 class="text-success">Ingresos</h5>
+          <p class="fs-4 fw-semibold">{{ totalIngresos | number:'1.2-2' }} €</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card border-danger shadow-sm" style="background-color: #fcebea;">
+        <div class="card-body">
+          <i class="bi bi-wallet2 fs-3 text-danger mb-2"></i>
+          <h5 class="text-danger">Gastos</h5>
+          <p class="fs-4 fw-semibold">{{ totalGastos | number:'1.2-2' }} €</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card border-primary shadow-sm" style="background-color: #e8f0fe;">
+        <div class="card-body">
+          <i class="bi bi-graph-up fs-3 text-primary mb-2"></i>
+          <h5 class="text-primary">Balance</h5>
+          <p class="fs-4 fw-semibold">{{ balance | number:'1.2-2' }} €</p>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="mt-4">
-    <canvas baseChart [data]="chartData" [options]="chartOptions" [type]="chartType"></canvas>
+  <!-- Gráfico -->
+<div class="card p-4 shadow-sm mb-4">
+  <div class="mx-auto" style="max-width: 800px; width: 100%;">
+    <canvas
+      baseChart
+      [data]="chartData"
+      [type]="chartType"
+      [options]="chartOptions"
+      height="250">
+    </canvas>
+  </div>
+</div>
+
+
+  <!-- Exportar PDF/Excel -->
+  <div class="d-flex justify-content-center gap-3 flex-wrap mb-5">
+    <button class="btn btn-outline-danger" (click)="exportarPDF()">
+      <i class="bi bi-file-earmark-pdf me-1"></i>Exportar PDF
+    </button>
+    <button class="btn btn-outline-success" (click)="exportarExcel()">
+      <i class="bi bi-file-earmark-excel me-1"></i>Exportar Excel
+    </button>
   </div>
 
-  <div class="mt-3 d-flex gap-2 flex-wrap">
-    <button class="btn btn-outline-danger" (click)="exportarPDF()">📄 Exportar PDF</button>
-    <button class="btn btn-outline-success" (click)="exportarExcel()">📊 Exportar Excel</button>
-  </div>
-
-  <div class="mt-5">
-    <button class="btn btn-info" (click)="generarResumenIA()" [disabled]="cargandoResumen">
-      🤖 Generar resumen con IA
-      <span *ngIf="cargandoResumen" class="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true"></span>
+  <!-- IA -->
+  <div class="text-center">
+    <button class="btn btn-info" [disabled]="cargandoResumen" (click)="generarResumenIA()">
+      <i class="bi bi-stars me-1"></i>
+      <span *ngIf="!cargandoResumen">Generar resumen con IA</span>
+      <span *ngIf="cargandoResumen">
+        Generando...
+        <span class="spinner-border spinner-border-sm ms-2" role="status"></span>
+      </span>
     </button>
 
     <div *ngIf="resumenIA" class="mt-4 text-start mx-auto" style="max-width: 800px;">
-      <h5>📘 Resumen generado por IA:</h5>
+      <h5><i class="bi bi-chat-left-text-fill me-2 text-primary"></i>Resumen generado por IA:</h5>
       <p style="white-space: pre-line">{{ resumenIA }}</p>
     </div>
   </div>

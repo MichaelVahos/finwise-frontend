@@ -1,12 +1,14 @@
 <div class="container mt-4">
-  <h2 class="text-center mb-4">👑 Panel de Administración</h2>
+  <h2 class="text-center mb-4 text-primary">
+    <i class="bi bi-people-fill me-2"></i>Panel de Administración
+  </h2>
 
   <div *ngIf="usuarios.length === 0" class="alert alert-info text-center">
     No hay usuarios registrados aún.
   </div>
 
   <div class="table-responsive" *ngIf="usuarios.length > 0">
-    <table class="table table-bordered text-center align-middle">
+    <table class="table table-bordered table-hover text-center align-middle shadow-sm">
       <thead class="table-dark">
         <tr>
           <th>ID</th>
@@ -22,14 +24,20 @@
           <td>{{ u.username }}</td>
           <td>{{ u.email }}</td>
           <td>
-            <select class="form-select" [(ngModel)]="u.rol" (change)="cambiarRol(u)">
+            <select class="form-select form-select-sm" [(ngModel)]="u.rol" (change)="cambiarRol(u)">
               <option value="USER">USER</option>
               <option value="ADMIN">ADMIN</option>
             </select>
           </td>
           <td>
-           <button class="btn btn-sm btn-outline-danger" (click)="eliminar(u.id)">Eliminar</button>
-            <button class="btn btn-outline-info btn-sm" (click)="verTransacciones(u.id)">Ver transacciones</button>
+            <div class="d-flex justify-content-center gap-2">
+              <button class="btn btn-sm btn-outline-danger" (click)="eliminar(u.id)">
+                <i class="bi bi-trash"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-info" (click)="verTransacciones(u.id)">
+                <i class="bi bi-card-list"></i>
+              </button>
+            </div>
           </td>
         </tr>
       </tbody>

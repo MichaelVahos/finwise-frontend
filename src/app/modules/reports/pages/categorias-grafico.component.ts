@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { NgChartsModule } from 'ng2-charts';
 import { ChartType, ChartData, ChartOptions } from 'chart.js';
 import { FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 import { IaService } from '../../../services/ia.service';
 
 @Component({
@@ -57,7 +58,7 @@ export class CategoriasGraficoComponent implements OnInit {
   cargarDatos(): void {
     const token = localStorage.getItem('token');
 
-    this.http.get<any[]>(`http://localhost:8080/api/transacciones/reporte/categorias`, {
+    this.http.get<any[]>('http://localhost:8080/api/transacciones/reporte/categorias', {
       headers: { Authorization: `Bearer ${token}` }
     }).subscribe({
       next: (data) => {
@@ -81,6 +82,7 @@ export class CategoriasGraficoComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error al cargar categorías', err);
+        Swal.fire('Error', 'No se pudieron cargar los datos de categorías.', 'error');
       }
     });
   }
@@ -108,7 +110,7 @@ export class CategoriasGraficoComponent implements OnInit {
       responseType: 'blob'
     }).subscribe({
       next: (blob) => this.descargarArchivo(blob, `categorias_${this.mes}_${this.anio}.pdf`),
-      error: () => alert('Error al generar PDF')
+      error: () => Swal.fire('Error', 'Error al generar PDF', 'error')
     });
   }
 
@@ -119,7 +121,7 @@ export class CategoriasGraficoComponent implements OnInit {
       responseType: 'blob'
     }).subscribe({
       next: (blob) => this.descargarArchivo(blob, `categorias_${this.mes}_${this.anio}.xlsx`),
-      error: () => alert('Error al generar Excel')
+      error: () => Swal.fire('Error', 'Error al generar Excel', 'error')
     });
   }
 

@@ -1,0 +1,26 @@
+@media (max-width: 991.98px) {
+  :host {
+    display: block;
+    padding-top: 2 rem;
+  }
+}
+
+.card-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.card-text {
+  white-space: pre-line;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.card {
+  border-radius: 10px;
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
