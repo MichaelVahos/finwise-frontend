@@ -1,5 +1,5 @@
 <div class="container mt-4">
-  <h3 class="text-center text-primary mb-4">
+  <h3 class="text-center text-primary mb-4 fw-bold">
     <i class="bi bi-pie-chart-fill me-2"></i>Distribución por categoría
   </h3>
 
@@ -63,30 +63,44 @@
   </div>
 
   <!-- Sugerencia con IA -->
-  <div class="card shadow-sm mb-4">
-    <div class="card-body text-center">
-      <h5 class="mb-3 text-secondary">
-        <i class="bi bi-lightbulb-fill me-2 text-warning"></i>Sugerencia de ahorro
-      </h5>
-      <button class="btn btn-outline-info mb-3" [disabled]="cargando" (click)="obtenerSugerencia()">
-        <span *ngIf="!cargando"><i class="bi bi-lightbulb me-1"></i>Obtener sugerencia</span>
-        <span *ngIf="cargando" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-        <span *ngIf="cargando"> Generando sugerencia...</span>
-      </button>
+  <!-- Sugerencia con IA -->
+<div class="card shadow-sm mb-4">
+  <div class="card-body text-center">
+    <h5 class="mb-3 text-secondary">
+      <i class="bi bi-lightbulb-fill me-2 text-warning"></i>Sugerencia de ahorro
+    </h5>
+    <button class="btn btn-info mb-3" [disabled]="cargando" (click)="obtenerSugerencia()">
+      <span *ngIf="!cargando">
+        <i class="bi bi-magic me-1"></i>Obtener sugerencia
+      </span>
+      <span *ngIf="cargando">
+        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+        Generando sugerencia...
+      </span>
+    </button>
 
-      <div *ngIf="sugerencia" class="text-start mx-auto" style="max-width: 700px;">
-        <p style="white-space: pre-line">{{ sugerencia }}</p>
-      </div>
+    <div *ngIf="sugerencia" class="text-start mx-auto mt-3" style="max-width: 700px;">
+      <p style="white-space: pre-line">{{ sugerencia }}</p>
     </div>
   </div>
+</div>
 
-  <!-- Botones de exportar -->
-  <div class="d-flex justify-content-center gap-3 flex-wrap mt-3">
-    <button class="btn btn-outline-danger" (click)="exportarPDF()">
-      <i class="bi bi-file-earmark-pdf me-1"></i>Exportar PDF
-    </button>
-    <button class="btn btn-outline-success" (click)="exportarExcel()">
-      <i class="bi bi-file-earmark-excel me-1"></i>Exportar Excel
-    </button>
+
+  <!-- Botones de exportar dentro de una card -->
+<div class="card shadow-sm mb-5">
+  <div class="card-body text-center">
+    <h5 class="mb-3 text-secondary">
+      <i class="bi bi-download me-2"></i>Exportar Reporte
+    </h5>
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+      <button class="btn btn-outline-danger" (click)="exportarPDF()">
+        <i class="bi bi-file-earmark-pdf me-1"></i>Exportar PDF
+      </button>
+      <button class="btn btn-outline-success" (click)="exportarExcel()">
+        <i class="bi bi-file-earmark-excel me-1"></i>Exportar Excel
+      </button>
+    </div>
   </div>
+</div>
+
 </div>

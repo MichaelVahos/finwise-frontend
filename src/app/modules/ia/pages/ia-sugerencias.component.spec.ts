@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FormComponent } from './form.component';
+import { IaSugerenciasComponent } from './ia-sugerencias.component';
 
-describe('FormComponent', () => {
-  let component: FormComponent;
-  let fixture: ComponentFixture<FormComponent>;
+describe('IaSugerenciasComponent', () => {
+  let component: IaSugerenciasComponent;
+  let fixture: ComponentFixture<IaSugerenciasComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormComponent]
+      imports: [IaSugerenciasComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(FormComponent);
+    fixture = TestBed.createComponent(IaSugerenciasComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { FooterComponent } from '../../../components/footer.component'; 
 
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FooterComponent],
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
@@ -16,7 +17,7 @@ export class MainComponent implements OnInit {
   resumen = { ingresos: 0, gastos: 0 };
   categoriaTop: { categoria: string, total: number } = { categoria: 'Sin datos', total: 0 };
   ultimas: any[] = [];
-
+/*
   accesos = [
     {
       titulo: 'Registrar Transacciones',
@@ -39,9 +40,9 @@ export class MainComponent implements OnInit {
       ruta: '/reports/categorias'
     },
     {
-      titulo: 'Sugerencias Inteligentes',
-      descripcion: 'Obtén recomendaciones personalizadas con IA.',
-      ruta: '/reports/categorias'
+      titulo: 'IA Sugerencias',
+      descripcion: 'Resuelve dudas, recibe análisis y recomendaciones financieras.',
+      ruta: '/ia/sugerencias'
     },
     {
       titulo: 'Historial de IA',
@@ -54,6 +55,51 @@ export class MainComponent implements OnInit {
       ruta: '/profile'
     }
   ];
+*/
+accesos = [
+  {
+    titulo: 'Registrar Transacciones',
+    descripcion: 'Agrega tus ingresos y gastos de forma rápida y segura.',
+    ruta: '/transactions/nueva',
+    icono: 'bi bi-pencil-square'
+  },
+  {
+    titulo: 'Ver Transacciones',
+    descripcion: 'Consulta, edita o elimina tus ingresos y gastos.',
+    ruta: '/transactions/lista',
+    icono: 'bi bi-list-check'
+  },
+  {
+    titulo: 'Reporte Mensual',
+    descripcion: 'Visualiza ingresos, gastos y balance mensual.',
+    ruta: '/resumen-mensual',
+    icono: 'bi bi-calendar3'
+  },
+  {
+    titulo: 'Categorías',
+    descripcion: 'Consulta tus gastos agrupados con gráficas.',
+    ruta: '/reports/categorias',
+    icono: 'bi bi-pie-chart-fill'
+  },
+  {
+    titulo: 'IA Sugerencias',
+    descripcion: 'Resuelve dudas, recibe análisis y recomendaciones financieras.',
+    ruta: '/ia/sugerencias',
+    icono: 'bi bi-stars'
+  },
+  {
+    titulo: 'Historial de IA',
+    descripcion: 'Consulta sugerencias generadas anteriormente.',
+    ruta: '/ia/historial',
+    icono: 'bi bi-clock-history'
+  },
+  {
+    titulo: 'Mi Perfil',
+    descripcion: 'Revisa tus datos y cambia tu contraseña.',
+    ruta: '/profile',
+    icono: 'bi bi-person-circle'
+  }
+];
 
   constructor(private router: Router, private http: HttpClient) {}
 

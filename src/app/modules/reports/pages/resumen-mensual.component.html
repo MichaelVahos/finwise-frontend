@@ -1,6 +1,6 @@
 <div class="container mt-4 pt-4">
   <!-- Título -->
-  <h3 class="text-center text-primary mb-4">
+  <h3 class="text-center text-primary mb-4 fw-bold">
     <i class="bi bi-bar-chart-fill me-2"></i>Resumen Mensual
   </h3>
 
@@ -80,31 +80,45 @@
   </div>
 </div>
 
-
-  <!-- Exportar PDF/Excel -->
-  <div class="d-flex justify-content-center gap-3 flex-wrap mb-5">
-    <button class="btn btn-outline-danger" (click)="exportarPDF()">
-      <i class="bi bi-file-earmark-pdf me-1"></i>Exportar PDF
-    </button>
-    <button class="btn btn-outline-success" (click)="exportarExcel()">
-      <i class="bi bi-file-earmark-excel me-1"></i>Exportar Excel
-    </button>
-  </div>
-
-  <!-- IA -->
-  <div class="text-center">
-    <button class="btn btn-info" [disabled]="cargandoResumen" (click)="generarResumenIA()">
-      <i class="bi bi-stars me-1"></i>
-      <span *ngIf="!cargandoResumen">Generar resumen con IA</span>
+<!-- IA resumen -->
+<div class="card shadow-sm mb-4">
+  <div class="card-body text-center">
+    <h5 class="mb-3 text-secondary">
+      <i class="bi bi-stars me-2 text-info"></i>Resumen generado por IA
+    </h5>
+    <button class="btn btn-info mb-3" [disabled]="cargandoResumen" (click)="generarResumenIA()">
+      <span *ngIf="!cargandoResumen">
+        <i class="bi bi-magic me-1"></i>Generar resumen con IA
+      </span>
       <span *ngIf="cargandoResumen">
+        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
         Generando...
-        <span class="spinner-border spinner-border-sm ms-2" role="status"></span>
       </span>
     </button>
 
-    <div *ngIf="resumenIA" class="mt-4 text-start mx-auto" style="max-width: 800px;">
-      <h5><i class="bi bi-chat-left-text-fill me-2 text-primary"></i>Resumen generado por IA:</h5>
+    <div *ngIf="resumenIA" class="text-start mx-auto mt-3" style="max-width: 800px;">
       <p style="white-space: pre-line">{{ resumenIA }}</p>
     </div>
   </div>
+</div>
+
+<!-- Exportar reporte -->
+<div class="card shadow-sm mb-5">
+  <div class="card-body text-center">
+    <h5 class="mb-3 text-secondary">
+      <i class="bi bi-download me-2"></i>Exportar Reporte
+    </h5>
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+      <button class="btn btn-outline-danger" (click)="exportarPDF()">
+        <i class="bi bi-file-earmark-pdf me-1"></i>Exportar PDF
+      </button>
+      <button class="btn btn-outline-success" (click)="exportarExcel()">
+        <i class="bi bi-file-earmark-excel me-1"></i>Exportar Excel
+      </button>
+    </div>
+  </div>
+</div>
+
+
+  
 </div>

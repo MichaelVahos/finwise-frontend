@@ -1,0 +1,66 @@
+.landing-container {
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(to right, #1e88e5, #43a047);
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+.content {
+  z-index: 2;
+  max-width: 700px;
+  padding: 2rem;
+}
+
+section#features,
+section#como-funciona,
+section#ventajas,
+section#faq {
+  scroll-margin-top: 100px;
+}
+
+.accordion-button {
+  font-weight: 500;
+}
+
+.accordion-item {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+}
+
+.accordion-button:focus {
+  box-shadow: none;
+}
+
+@media (max-width: 991.98px) {
+  :host {
+    display: block;
+    padding-top: 4.5rem;
+  }
+
+  .landing-container {
+    padding: 1.5rem;
+  }
+
+  .content {
+    padding: 1.5rem;
+  }
+}
+
+h2 {
+  font-size: 1.75rem;
+}

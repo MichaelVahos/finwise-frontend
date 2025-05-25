@@ -1,8 +1,15 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
+import { guestGuard } from './guards/guest.guard';
 
 export const routes: Routes = [
+  {
+    path: '',
+    loadComponent: () =>
+      import('./pages/landing/landing-page.component').then((m) => m.LandingPageComponent),
+    canActivate: [guestGuard]
+  },
   {
     path: 'auth',
     loadChildren: () =>
@@ -36,9 +43,9 @@ export const routes: Routes = [
         .then((m) => m.ResumenMensualComponent)
   },
   {
-    path: 'ia/historial',
-    loadComponent: () =>
-      import('./modules/ia/pages/ia-historial.component').then(m => m.IaHistorialComponent)
+    path: 'ia',
+    loadChildren: () =>
+      import('./modules/ia/pages/ia.routes').then(m => m.IA_ROUTES)
   },
   {
     path: 'admin',
@@ -48,11 +55,12 @@ export const routes: Routes = [
     data: { roles: ['ROLE_ADMIN'] }
   },
   {
-  path: 'unauthorized',
-  loadComponent: () => import('./modules/unauthorized/unauthorized.component').then(m => m.UnauthorizedComponent)
+    path: 'unauthorized',
+    loadComponent: () => 
+      import('./modules/unauthorized/unauthorized.component').then(m => m.UnauthorizedComponent)
   },
   {
     path: '**',
-    redirectTo: 'dashboard', // redirección por defecto
-  },
+    redirectTo: '',
+  }
 ];

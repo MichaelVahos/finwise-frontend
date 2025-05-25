@@ -1,0 +1,82 @@
+<div class="container mt-4" style="max-width: 900px;">
+  <h2 class="text-center mb-4 fw-bold text-primary">
+    <i class="bi bi-stars me-2"></i>Sugerencias Inteligentes
+  </h2>
+
+  <ul class="nav nav-tabs justify-content-center mb-3" id="tabs">
+    <li class="nav-item">
+      <button class="nav-link" [class.active]="tab === 'objetivo'" (click)="tab = 'objetivo'">
+        <i class="bi bi-bullseye me-1"></i>Objetivo financiero
+      </button>
+    </li>
+    <li class="nav-item">
+      <button class="nav-link" [class.active]="tab === 'habitos'" (click)="tab = 'habitos'">
+        <i class="bi bi-search me-1"></i>Análisis de hábitos
+      </button>
+    </li>
+    <li class="nav-item">
+      <button class="nav-link" [class.active]="tab === 'pregunta'" (click)="tab = 'pregunta'">
+        <i class="bi bi-chat-text me-1"></i>Pregunta abierta
+      </button>
+    </li>
+  </ul>
+
+  <!-- Objetivo financiero -->
+  <div *ngIf="tab === 'objetivo'">
+    <form (ngSubmit)="enviarObjetivo()">
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Describe tu objetivo financiero</label>
+        <input type="text" [(ngModel)]="objetivo" name="objetivo" class="form-control" placeholder="Ej: Ahorrar 1000€ en 6 meses" required>
+      </div>
+      <button class="btn btn-success w-100" type="submit">
+        <i class="bi bi-lightning-charge me-1"></i>Generar sugerencia
+      </button>
+    </form>
+    <div *ngIf="cargandoObjetivo" class="text-center mt-3">
+      <div class="spinner-border text-success" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+    <div *ngIf="respuestaObjetivo" class="alert alert-info mt-3 white-space-pre">
+      {{ respuestaObjetivo }}
+    </div>
+  </div>
+
+  <!-- Análisis de hábitos -->
+  <div *ngIf="tab === 'habitos'">
+    <div class="text-center mb-3">
+      <button class="btn btn-primary" (click)="analizarHabitos()">
+        <i class="bi bi-bar-chart-line me-1"></i>Analizar hábitos financieros
+      </button>
+    </div>
+    <div *ngIf="cargandoHabitos" class="text-center mt-3">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+    <div *ngIf="respuestaHabitos" class="alert alert-warning mt-3 white-space-pre">
+      {{ respuestaHabitos }}
+    </div>
+  </div>
+
+  <!-- Pregunta abierta -->
+  <div *ngIf="tab === 'pregunta'">
+    <form (ngSubmit)="enviarPregunta()">
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Haz tu pregunta</label>
+        <textarea [(ngModel)]="pregunta" name="pregunta" class="form-control" rows="3" placeholder="¿Qué puedo hacer para gastar menos en ocio?" required></textarea>
+      </div>
+      <button class="btn btn-secondary w-100" type="submit">
+        <i class="bi bi-send me-1"></i>Enviar pregunta
+      </button>
+    </form>
+    <div *ngIf="cargandoPregunta" class="text-center mt-3">
+      <div class="spinner-border text-secondary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+    <div *ngIf="respuestaPregunta" class="alert alert-secondary mt-3 white-space-pre">
+      {{ respuestaPregunta }}
+    </div>
+  </div>
+</div>
