@@ -25,27 +25,32 @@ export const routes: Routes = [
     path: 'dashboard',
     loadChildren: () =>
       import('./modules/dashboard/dashboard.routes').then((m) => m.DASHBOARD_ROUTES),
+    canActivate: [authGuard]
   },
   {
     path: 'transactions',
     loadChildren: () =>
       import('./modules/transactions/transactions.routes').then((m) => m.TRANSACTIONS_ROUTES),
+    canActivate: [authGuard]
   },
   {
     path: 'reports',
     loadChildren: () =>
       import('./modules/reports/reports.routes').then((m) => m.REPORTS_ROUTES),
+    canActivate: [authGuard]
   },
   {
     path: 'resumen-mensual',
     loadComponent: () =>
       import('./modules/reports/pages/resumen-mensual.component')
-        .then((m) => m.ResumenMensualComponent)
+        .then((m) => m.ResumenMensualComponent),
+    canActivate: [authGuard]
   },
   {
     path: 'ia',
     loadChildren: () =>
-      import('./modules/ia/pages/ia.routes').then(m => m.IA_ROUTES)
+      import('./modules/ia/pages/ia.routes').then(m => m.IA_ROUTES),
+    canActivate: [authGuard]
   },
   {
     path: 'admin',

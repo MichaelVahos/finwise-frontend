@@ -6,12 +6,10 @@ import { authGuard } from '../../guards/auth.guard';
 export const REPORTS_ROUTES: Routes = [
   {
     path: 'resumen-mensual',
-    component: ResumenMensualComponent,
-    canActivate: [authGuard]
+    component: ResumenMensualComponent
   },
   {
     path: 'categorias',
-    component: CategoriasGraficoComponent,
-    canActivate: [authGuard]
+    component: CategoriasGraficoComponent
   }
 ];

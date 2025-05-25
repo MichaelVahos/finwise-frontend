@@ -6,12 +6,10 @@ import { authGuard } from '../../../guards/auth.guard';
 export const IA_ROUTES: Routes = [
   {
     path: 'sugerencias',
-    component: IaSugerenciasComponent,
-    canActivate: [authGuard]
+    component: IaSugerenciasComponent
   },
   {
     path: 'historial',
-    component: IaHistorialComponent,
-    canActivate: [authGuard]
+    component: IaHistorialComponent
   }
 ];
